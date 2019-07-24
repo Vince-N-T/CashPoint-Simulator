@@ -1,3 +1,4 @@
+package bankomat;
 /**
  *  Устройство вывода банкомата
  */
@@ -7,7 +8,7 @@
  *
  */
 class Display {
-	String name = "testDisplay";
+
 	
 	void typeMessage(String str) {
 	//    System.out.println(str);

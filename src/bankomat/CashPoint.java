@@ -1,3 +1,5 @@
+package bankomat;
+
 /**
  * Обобщенный интерфейс банкомата
  */
@@ -15,12 +17,11 @@ public interface CashPoint {
 	Object keyboardSignalSlot(String inputStringToken);
 	Object keyboardSignalSlot(Integer inputNumberToken);
 	
-//	void informUser();
-//	void queryUser();
+	String CardReaderSlot() throws CardreaderException;
+
 
 //	void giveMoney();
 //	void receiveMoneySignalSlot();
 	
-	void takeCard();
-	void returnCard();	
+	
 }
