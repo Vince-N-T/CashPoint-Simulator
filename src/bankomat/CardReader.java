@@ -15,11 +15,11 @@ package bankomat;
 
 class CardReader {
 	
-		final CashPoint connectedBankomat;
+		final CashPointInterface connectedBankomat;
 		final static String cardNumberPattern = "^\\d{4}-\\d{4}-\\d{4}-\\d{4}";
 		
 		
-	 	CardReader (final CashPoint bankomatInstance) { 
+	 	CardReader (final CashPointInterface bankomatInstance) { 
 	 		
 	 			connectedBankomat = bankomatInstance;
 		}

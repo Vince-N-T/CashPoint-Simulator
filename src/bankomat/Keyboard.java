@@ -18,7 +18,7 @@ class Keyboard {
 		
 		Scanner sc = new Scanner(System.in);
 		inputStringToken = sc.nextLine();
-		
+		sc.close();
 					return inputStringToken;
 		             
 		}
@@ -35,6 +35,10 @@ class Keyboard {
 		 		} catch (Exception e) {
 		 			throw e;
 		 		}
+		 		finally {
+			 		sc.close();
+		 		}
+
 		 				return inputNumberToken;
                       
 		}

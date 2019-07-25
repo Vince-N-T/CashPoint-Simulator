@@ -2,10 +2,14 @@
  * Управлнение устройствами банкомата
  */
 
-		package cashpointcontroller;
-		import java.io.IOException;
-        import java.util.regex.*;
-        import bankomat.*;
+package cashpointcontroller;
+import java.io.IOException;
+import java.util.regex.*;
+
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+
+import bankomat.*;
 
         //import bankomat.CardReader;
         //import bankomat.CashPoint;
@@ -18,11 +22,11 @@
  */
 public final class Controller {  // защищаемся от подсовывания банкомату "левого" контроллера через наследование
 	
-	final 	CashPoint 		controledBankomat;
+	final 	CashPointInterface 		controledBankomat;
 			DataBase 		db = new DataBase();
 	 		
 			
-	public Controller (final CashPoint bankomatInstance) { 
+	public Controller (final CashPointInterface bankomatInstance) { 
 		
 							controledBankomat = bankomatInstance;
 	}
@@ -49,15 +53,33 @@ public final class Controller {  // защищаемся от подсовывания банкомату "левого
 
 	public void start () {
 		
+		
+		String userRecordJSONRepresentationR = null;
+		Jsonb jsonb = JsonbBuilder.create();
+		String JSONstring = controledBankomat.dataStorageSlotRecover( userRecordJSONRepresentationR );
+			print ("Данные восстановлены из хранилища\n" + JSONstring + "\n");
 
 		
-		print("Рады видеть Вас в службе виртуальных банкоматов!");
+			
+		print("\nРады видеть Вас в службе виртуальных банкоматов!");
+				
+		
 		
 		String cardNumber=null;
 		cardNumber = ClientAuthorizationLogic.authorizeClient(controledBankomat, db);
 		
 		if (cardNumber != null ) print("Вы успешно прошли авторизацию по номеру карты " + cardNumber );
 
+		
+		
+		CashpointUserRecord 		userRecord = new CashpointUserRecord ();
+		CashpointUserRecordPublic 	publicCopy = CashpointUserRecord.getPublicClone(userRecord);
+
+//		Jsonb jsonb = JsonbBuilder.create();
+		String userRecordJSONRepresentationW = jsonb.toJson(publicCopy);
+		
+		controledBankomat.dataStorageSlotFlush( userRecordJSONRepresentationW );
+		
 
 	}
 	

@@ -4,22 +4,22 @@
 package cashpointcontroller;
 
 import bankomat.CardreaderException;
-import bankomat.CashPoint;
+import bankomat.CashPointInterface;
 
 /**
  * @author Vince-NT
  *
  */
-class ClientAuthorizationLogic {
+abstract class  ClientAuthorizationLogic {
 	
 	
-	static 	String authorizeClient (final CashPoint controledBankomat, final DataBase db) {
+	static 	String authorizeClient (final CashPointInterface controledBankomat, final DataBase db) {
 		
 		
 			String cardNumber = null;
 		
 			try {
-					cardNumber = controledBankomat.CardReaderSlot();   // запрашиваем номер карты
+					cardNumber = controledBankomat.cardReaderSlot();   // запрашиваем номер карты
 					
 			} catch (CardreaderException e) {
 				
@@ -112,7 +112,7 @@ class ClientAuthorizationLogic {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	static void blockClient (String cardNumber, final CashPoint controledBankomat, final DataBase db) {
+	static void blockClient (String cardNumber, final CashPointInterface controledBankomat, final DataBase db) {
 	
 		controledBankomat.displaySignalSlot("\nВнимание!\nВ связи с неправильным введением PIN-a более 3-х раз ваша карта заблокирована на сутки!\n:");
 		db.blockUser();

@@ -1,5 +1,6 @@
 package bankomat;
 import cashpointcontroller.Controller;
+import java.io.IOException;
 
 /**
  *  Точка входа в логику симуляции (сборка нашего банкомата)
@@ -9,14 +10,14 @@ import cashpointcontroller.Controller;
  *
  */
 
-public class Bankomat   implements CashPoint {
+public class Bankomat   implements CashPointInterface {
 	
 	private Display  		dspl =   	new Display();
 	private Keyboard 		kbrd =   	new Keyboard();
 	private CardReader		cardRdr;
 	private CashBox  		cbox =   	new CashBox();
 	private MoneyFeeder 	feeder = 	new MoneyFeeder();	
-	private DataSorage  	datastore = new DataSorage();
+	private DataSorage  	dataStore = new DataSorage();
  	private Controller 		ctrl;
 
 	Bankomat () {
@@ -50,7 +51,7 @@ public class Bankomat   implements CashPoint {
 			
 	} 
 	
-// ------------------------------------------------------------------------------------------------------------------------------
+	// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 	
 	public Object keyboardSignalSlot(Integer inputNumberToken) {
@@ -68,7 +69,7 @@ public class Bankomat   implements CashPoint {
 // ------------------------------------------------------------------------------------------------------------------------------
 
 	
-	public  String CardReaderSlot() throws CardreaderException {
+	public  String cardReaderSlot() throws CardreaderException {
 		
 		String cardReaderAnswer = null;
 		
@@ -84,12 +85,40 @@ public class Bankomat   implements CashPoint {
 		return cardReaderAnswer;
 		
 	}
-	// ------------------------------------------------------------------------	
+	
+// ------------------------------------------------------------------------------------------------------------------------------
 	
 
+	public void dataStorageSlotFlush (String data) {
+		
+		try {
+				dataStore.saveData(data);
+				
+		} catch (IOException e) {
+		} 
+	
+	}
+	// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+	
+	public String dataStorageSlotRecover (String data) {
+		
+		try {
+				data = dataStore.readData();
+		} catch (IOException e) 
+			{	e.printStackTrace();  }
+
+		
+		
+		return data;
+		
+	}
+	
+// ------------------------------------------------------------------------------------------------------------------------------
+	
 	public void giveMoney() {}
 	public void receiveMoney() {}
 	
+// ------------------------------------------------------------------------------------------------------------------------------
 
 	
  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
